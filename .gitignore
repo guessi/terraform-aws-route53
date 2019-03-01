@@ -1,0 +1,17 @@
+# IGNORE MODULES DOWNLOAD
+# DO NOT CHANGE THE ORDER
+!/**/.terraform
+**/.terraform
+
+# IGNORE BACKUP FILES
+*.tfstate.backup
+*.tfstate.*.backup
+
+# IGNORE LOCK FILES
+.terraform.tfstate.lock.info
+
+# IGNORE STATE FILES OF EXAMPLES
+examples/terraform.tfstate
+
+# IGNORE ANNOYED ".DS_Store"
+.DS_Store
