@@ -34,7 +34,6 @@ module "NS" {
 
 module "NS-SUBDOMAIN" {
   source               = "../"
-  type                 = "SOA"
   zone_id              = "${aws_route53_zone.default.zone_id}"
   ns_records_subdomain = "${var.ns_records_subdomain}"
 }
@@ -45,7 +44,6 @@ module "NS-SUBDOMAIN" {
 
 module "SOA" {
   source      = "../"
-  type        = "SOA"
   zone_id     = "${aws_route53_zone.default.zone_id}"
   soa_records = "${var.soa_records}"
   ns0         = "${aws_route53_zone.default.name_servers.0}"
