@@ -3,17 +3,15 @@
 //
 
 resource "aws_route53_record" "NS" {
-  count = "${length(var.ns_records)}"
+  count = length(var.ns_records)
 
-  zone_id = "${var.zone_id}"
+  zone_id = var.zone_id
 
   type = "NS"
-  name = "${lookup(var.ns_records[count.index], "NAME")}"
-  ttl  = "${lookup(var.ns_records[count.index], "TTL")}"
+  name = var.ns_records[count.index]["NAME"]
+  ttl  = var.ns_records[count.index]["TTL"]
 
-  records = [
-    "${var.ns_nameservers}",
-  ]
+  records = var.ns_nameservers
 }
 
 //
@@ -21,17 +19,15 @@ resource "aws_route53_record" "NS" {
 //
 
 resource "aws_route53_record" "NS-SUBDOMAIN" {
-  count = "${length(var.ns_records_subdomain)}"
+  count = length(var.ns_records_subdomain)
 
-  zone_id = "${var.zone_id}"
+  zone_id = var.zone_id
 
   type = "NS"
-  name = "${lookup(var.ns_records_subdomain[count.index], "NAME")}"
-  ttl  = "${lookup(var.ns_records_subdomain[count.index], "TTL")}"
+  name = var.ns_records_subdomain[count.index]["NAME"]
+  ttl  = var.ns_records_subdomain[count.index]["TTL"]
 
-  records = [
-    "${compact(split(",", lookup(var.ns_records_subdomain[count.index], "RECORD")))}",
-  ]
+  records = compact(split(",", var.ns_records_subdomain[count.index]["RECORD"]))
 }
 
 //
@@ -39,16 +35,16 @@ resource "aws_route53_record" "NS-SUBDOMAIN" {
 //
 
 resource "aws_route53_record" "SOA" {
-  count = "${length(var.soa_records)}"
+  count = length(var.soa_records)
 
-  zone_id = "${var.zone_id}"
+  zone_id = var.zone_id
 
   type = "SOA"
-  name = "${lookup(var.soa_records[count.index], "NAME")}"
-  ttl  = "${lookup(var.soa_records[count.index], "TTL")}"
+  name = var.soa_records[count.index]["NAME"]
+  ttl  = var.soa_records[count.index]["TTL"]
 
   records = [
-    "${var.ns0}. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400",
+    format("%s. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400", var.ns0),
   ]
 }
 
@@ -57,17 +53,15 @@ resource "aws_route53_record" "SOA" {
 //
 
 resource "aws_route53_record" "SIMPLE" {
-  count = "${length(var.records)}"
+  count = length(var.records)
 
-  zone_id = "${var.zone_id}"
+  zone_id = var.zone_id
 
-  type = "${var.type}"
-  name = "${lookup(var.records[count.index], "NAME")}"
-  ttl  = "${lookup(var.records[count.index], "TTL")}"
+  type = var.type
+  name = var.records[count.index]["NAME"]
+  ttl  = var.records[count.index]["TTL"]
 
-  records = [
-    "${compact(split(",", lookup(var.records[count.index], "RECORD")))}",
-  ]
+  records = compact(split(",", var.records[count.index]["RECORD"]))
 }
 
 //
@@ -75,25 +69,23 @@ resource "aws_route53_record" "SIMPLE" {
 //
 
 resource "aws_route53_record" "Weighted" {
-  count = "${length(var.records_with_weight)}"
+  count = length(var.records_with_weight)
 
-  zone_id = "${var.zone_id}"
+  zone_id = var.zone_id
 
-  type = "${var.type}"
-  name = "${lookup(var.records_with_weight[count.index], "NAME")}"
-  ttl  = "${lookup(var.records_with_weight[count.index], "TTL")}"
+  type = var.type
+  name = var.records_with_weight[count.index]["NAME"]
+  ttl  = var.records_with_weight[count.index]["TTL"]
 
   weighted_routing_policy {
-    weight = "${lookup(var.records_with_weight[count.index], "WEIGHT")}"
+    weight = var.records_with_weight[count.index]["WEIGHT"]
   }
 
-  set_identifier = "${lookup(var.records_with_weight[count.index], "SID")}"
+  set_identifier = var.records_with_weight[count.index]["SID"]
 
-  health_check_id = "${lookup(var.records_with_weight[count.index], "HEALTH_CHECK_ID", "")}"
+  health_check_id = lookup(var.records_with_weight[count.index], "HEALTH_CHECK_ID", "")
 
-  records = [
-    "${compact(split(",", lookup(var.records_with_weight[count.index], "RECORD")))}",
-  ]
+  records = compact(split(",", var.records_with_weight[count.index]["RECORD"]))
 }
 
 //
@@ -101,17 +93,17 @@ resource "aws_route53_record" "Weighted" {
 //
 
 resource "aws_route53_record" "Alias" {
-  count = "${length(var.records_with_alias)}"
+  count = length(var.records_with_alias)
 
-  zone_id = "${var.zone_id}"
+  zone_id = var.zone_id
 
-  type = "${var.type}"
-  name = "${lookup(var.records_with_alias[count.index], "NAME")}"
+  type = var.type
+  name = var.records_with_alias[count.index]["NAME"]
 
   alias {
-    name                   = "${lookup(var.records_with_alias[count.index], "RECORD")}"
-    zone_id                = "${lookup(var.records_with_alias[count.index], "ZONE_ID")}"
-    evaluate_target_health = "${lookup(var.records_with_alias[count.index], "EVALUATE_TARGET_HEALTH")}"
+    name                   = var.records_with_alias[count.index]["RECORD"]
+    zone_id                = var.records_with_alias[count.index]["ZONE_ID"]
+    evaluate_target_health = var.records_with_alias[count.index]["EVALUATE_TARGET_HEALTH"]
   }
 }
 
@@ -120,23 +112,23 @@ resource "aws_route53_record" "Alias" {
 //
 
 resource "aws_route53_record" "Alias-Weighted" {
-  count = "${length(var.records_with_alias_weight)}"
+  count = length(var.records_with_alias_weight)
 
-  zone_id = "${var.zone_id}"
+  zone_id = var.zone_id
 
-  type = "${var.type}"
-  name = "${lookup(var.records_with_alias_weight[count.index], "NAME")}"
+  type = var.type
+  name = var.records_with_alias_weight[count.index]["NAME"]
 
   weighted_routing_policy {
-    weight = "${lookup(var.records_with_alias_weight[count.index], "WEIGHT")}"
+    weight = var.records_with_alias_weight[count.index]["WEIGHT"]
   }
 
-  set_identifier = "${lookup(var.records_with_alias_weight[count.index], "SID")}"
+  set_identifier = var.records_with_alias_weight[count.index]["SID"]
 
   alias {
-    name                   = "${lookup(var.records_with_alias_weight[count.index], "RECORD")}"
-    zone_id                = "${lookup(var.records_with_alias_weight[count.index], "ZONE_ID")}"
-    evaluate_target_health = "${lookup(var.records_with_alias_weight[count.index], "EVALUATE_TARGET_HEALTH")}"
+    name                   = var.records_with_alias_weight[count.index]["RECORD"]
+    zone_id                = var.records_with_alias_weight[count.index]["ZONE_ID"]
+    evaluate_target_health = var.records_with_alias_weight[count.index]["EVALUATE_TARGET_HEALTH"]
   }
 }
 
@@ -145,21 +137,21 @@ resource "aws_route53_record" "Alias-Weighted" {
 //
 
 resource "aws_route53_record" "Geolocation" {
-  count = "${length(var.records_with_geolocation)}"
+  count = length(var.records_with_geolocation)
 
-  zone_id = "${var.zone_id}"
+  zone_id = var.zone_id
 
-  type = "${var.type}"
-  name = "${lookup(var.records_with_geolocation[count.index], "NAME")}"
-  ttl  = "${lookup(var.records_with_geolocation[count.index], "TTL")}"
+  type = var.type
+  name = var.records_with_geolocation[count.index]["NAME"]
+  ttl  = var.records_with_geolocation[count.index]["TTL"]
 
-  set_identifier = "${lookup(var.records_with_geolocation[count.index], "SID")}"
+  set_identifier = var.records_with_geolocation[count.index]["SID"]
 
   geolocation_routing_policy {
-    country = "${lookup(var.records_with_geolocation[count.index], "COUNTRY")}"
+    country = var.records_with_geolocation[count.index]["COUNTRY"]
   }
 
-  records = [
-    "${compact(split(",", lookup(var.records_with_geolocation[count.index], "RECORD")))}",
-  ]
+  records = compact(
+    split(",", var.records_with_geolocation[count.index]["RECORD"]),
+  )
 }
