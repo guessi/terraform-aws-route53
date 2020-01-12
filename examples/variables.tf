@@ -16,10 +16,22 @@ variable "ns_records" {
   default     = []
 }
 
+variable "ns_nameservers" {
+  type        = "list"
+  description = "Name Servers of NS Records"
+  default     = []
+}
+
 variable "ns_records_subdomain" {
   type        = "list"
   description = "NS Records for Zone for Sub-domains"
   default     = []
+}
+
+variable "ns0" {
+  type        = "string"
+  description = "Name Server"
+  default     = ""
 }
 
 variable "txt_records" {

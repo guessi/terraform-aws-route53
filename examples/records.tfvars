@@ -9,6 +9,16 @@ zone_id = "Z34H1M7Y48GDYF"
 #   },
 # ]
 
+# ns_records_subdomain = [
+#   {
+#     "NAME"   = "xyz.example123.com"
+#     "RECORD" = "ns1.example123.com"
+#     "TTL"    = "300"
+#   },
+# ]
+
+# ns0 = "ns1.example123.com"
+
 # soa_records = [
 #   {
 #     "NAME" = "example123.com"
@@ -142,14 +152,14 @@ zone_id = "Z34H1M7Y48GDYF"
 # a_records_with_geolocation = [
 #   {
 #     "NAME"    = "a-geo.example123.com"
-#     "RECORD" = "10.0.0.10"
+#     "RECORD"  = "10.0.0.10"
 #     "TTL"     = 60
 #     "SID"     = "Global"
 #     "COUNTRY" = "*"
 #   },
 #   {
 #     "NAME"    = "a-geo.example123.com"
-#     "RECORD" = "10.0.0.20"
+#     "RECORD"  = "10.0.0.20"
 #     "TTL"     = 60
 #     "SID"     = "China"
 #     "COUNTRY" = "CN"
