@@ -8,6 +8,7 @@
 *.tfstate.*.backup
 
 # IGNORE LOCK FILES
+.terraform.lock.hcl
 .terraform.tfstate.lock.info
 
 # IGNORE STATE FILES OF EXAMPLES

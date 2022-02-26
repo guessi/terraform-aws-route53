@@ -1,5 +1,16 @@
 provider "aws" {
-  version = ">= 2.0,< 4.0"
-  region  = "us-east-1" # route53 region must be "us-east-1"
-  profile = "default"   # define the aws profile name here
+  region = "us-east-1" # route53 region must be "us-east-1"
+}
+
+terraform {
+  required_version = ">= 1.0.0,< 2.0.0"
+}
+
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
 }

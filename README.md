@@ -6,16 +6,10 @@ Create Managed Zone, A/AAAA/CNAME/SOA/TXT/NS/MX records on AWS Route53.
 
 ## Prerequisites
 
-* Terraform >=0.12.0,<0.14.0
-* Terraform AWS Provider >=2.0,<4.0
+* Terraform >=1.0.0,<2.0.0
+* Terraform AWS Provider ~>3.0
 * AWS IAM User/Role with `AmazonRoute53FullAccess` permission
 * AWS Profile Defined in `provider.tf`
-
-## Special notice for the version requirements
-
-* For Terraform 0.11.x users, please ensure running module version is 1.x.
-* For Terraform 0.12.x users, please ensure running module version is 2.x.
-* For Terraform 0.13.x users, please ensure running module version is 2.x.
 
 ## What kind of record types that currently supported?
 

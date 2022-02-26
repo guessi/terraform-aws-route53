@@ -1,3 +1,10 @@
+3.0.0 / 2022-02-26
+==================
+
+- Required Terraform >= 1.0.0
+- Required Terraform AWS Provider ~> 3.0
+- Removed variable input `zone_id`
+
 2.0.1 / 2020-10-12
 ==================
 

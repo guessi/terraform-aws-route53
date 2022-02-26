@@ -3,12 +3,8 @@
 //
 
 resource "aws_route53_zone" "default" {
-  name = format("%s%s", var.zone_name, ".")
-
-  # HINT: the `${var.zone_id}` here is simply a string value
-  # it is for comment only, update manually after zone created
-  # please use `${aws_route53_zone.default.zone_id}` if needed
-  comment = format("Managed by Terraform (Zone ID: %s)", var.zone_id)
+  name    = format("%s%s", var.zone_name, ".")
+  comment = "Managed by Terraform"
 }
 
 //
@@ -26,6 +22,10 @@ module "NS" {
     format("%s%s", aws_route53_zone.default.name_servers[2], "."),
     format("%s%s", aws_route53_zone.default.name_servers[3], "."),
   ]
+
+  depends_on = [
+    aws_route53_zone.default,
+  ]
 }
 
 //
@@ -36,6 +36,10 @@ module "NS-SUBDOMAIN" {
   source               = "../"
   zone_id              = aws_route53_zone.default.zone_id
   ns_records_subdomain = var.ns_records_subdomain
+
+  depends_on = [
+    aws_route53_zone.default,
+  ]
 }
 
 //
@@ -47,6 +51,10 @@ module "SOA" {
   zone_id     = aws_route53_zone.default.zone_id
   soa_records = var.soa_records
   ns0         = aws_route53_zone.default.name_servers[0]
+
+  depends_on = [
+    aws_route53_zone.default,
+  ]
 }
 
 //
@@ -59,6 +67,10 @@ module "MX" {
   zone_id = aws_route53_zone.default.zone_id
   records = var.mx_records
   // MX records should contain "SIMPLE record" only
+
+  depends_on = [
+    aws_route53_zone.default,
+  ]
 }
 
 //
@@ -71,6 +83,10 @@ module "TXT" {
   zone_id = aws_route53_zone.default.zone_id
   records = var.txt_records
   // TXT records should contain "SIMPLE record" only
+
+  depends_on = [
+    aws_route53_zone.default,
+  ]
 }
 
 //
@@ -86,6 +102,10 @@ module "A" {
   records_with_alias        = var.a_records_with_alias
   records_with_alias_weight = var.a_records_with_alias_weight
   records_with_geolocation  = var.a_records_with_geolocation
+
+  depends_on = [
+    aws_route53_zone.default,
+  ]
 }
 
 //
@@ -101,6 +121,10 @@ module "AAAA" {
   records_with_alias        = var.aaaa_records_with_alias
   records_with_alias_weight = var.aaaa_records_with_alias_weight
   records_with_geolocation  = var.aaaa_records_with_geolocation
+
+  depends_on = [
+    aws_route53_zone.default,
+  ]
 }
 
 //
@@ -116,4 +140,8 @@ module "CNAME" {
   records_with_alias        = var.cname_records_with_alias
   records_with_alias_weight = var.cname_records_with_alias_weight
   records_with_geolocation  = var.cname_records_with_geolocation
+
+  depends_on = [
+    aws_route53_zone.default,
+  ]
 }

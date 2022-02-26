@@ -1,7 +1,5 @@
 zone_name = "example123.com"
 
-zone_id = "Z34H1M7Y48GDYF"
-
 # ns_records = [
 #   {
 #     "NAME" = "example123.com"

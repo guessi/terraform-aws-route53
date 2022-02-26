@@ -4,12 +4,6 @@ variable "zone_name" {
   default     = ""
 }
 
-variable "zone_id" {
-  type        = string
-  description = "Hosted Zone ID"
-  default     = ""
-}
-
 variable "ns_records" {
   type = list(object({
     NAME = string,
