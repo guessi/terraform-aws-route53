@@ -1,3 +1,9 @@
+4.0.0 / 2022-09-12
+==================
+
+- Required Terraform ~> 1.2
+- Required Terraform AWS Provider ~> 4.30
+
 3.0.0 / 2022-02-26
 ==================
 
